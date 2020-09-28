@@ -44,8 +44,9 @@ function del_post() {
 }
 
 function install_go(){
-    wget https://dl.google.com/go/go1.14.1.linux-amd64.tar.gz -P /tmp
-    tar -C /usr/local -zxf /tmp/go1.14.1.linux-amd64.tar.gz
+    gov=$(curl -s https://github.com/golang/go/releases|awk '/release-branch/{print $NF;exit;}')
+    wget https://golang.org/dl/${gov}.linux-amd64.tar.gz -P /tmp
+    tar -C /usr/local -zxf /tmp/${gov}.linux-amd64.tar.gz
     export GOPATH="/usr/go"
 }
 
@@ -84,9 +85,8 @@ function get_speedtest(){
         rm -rf $dir
     fi
     install_go
-    cd && git clone https://github.com/librespeed/speedtest
+    cd && git clone https://github.com/librespeed/speedtest-go.git
     cd speedtest
-    git checkout remotes/origin/go
     mkdir $dir && cp -r settings.toml assets $dir
     /usr/local/go/bin/go build -o speedtest main.go
     cp ./speedtest $dir
