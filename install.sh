@@ -7,6 +7,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 dir="/usr/speedtest/"
+GOVER="1.18.4"
 
 function setout(){
     if [ -e "/usr/bin/yum" ]; then
@@ -44,9 +45,8 @@ function del_post() {
 }
 
 function install_go(){
-    gov=$(curl -s https://github.com/golang/go/releases|awk '/release-branch/{print $NF;exit;}')
-    wget https://golang.org/dl/${gov}.linux-amd64.tar.gz -P /tmp
-    tar -C /usr/local -zxf /tmp/${gov}.linux-amd64.tar.gz
+    wget https://go.dev/dl/go${GOVER}.linux-amd64.tar.gz -P /tmp
+    tar -C /usr/local -zxf /tmp/go${GOVER}.linux-amd64.tar.gz
     export GOPATH="/usr/go"
 }
 
@@ -107,7 +107,7 @@ function start(){
         echo "启动成功."
         echo "访问IP:$port测速."
     fi
-    
+
 }
 
 function stop(){
